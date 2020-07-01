@@ -41,13 +41,18 @@ class App extends Component {
     })
   };
 
+  delTodo = (id) => {
+    let todos = this.state.todos.filter((todo) => todo.id !== id);
+    this.setState({ todos });
+  }
+
   render() {
     // 2) pass down todos from state as a prop 'todos={this.state.todos}' for use in class 'Todos'
     // 9) creating prop markComplete (for use of component 'Todos' - down the chain) so that the markComplete method in this 'App' class can alter state 
     // flow3) change event has taken place. The id has been pushed up to "this" markComplete & will be excecuted in the markComplete method
     return (
       <div className="App">
-        <Todos todos={this.state.todos} markComplete={this.markComplete} />
+        <Todos todos={this.state.todos} markComplete={this.markComplete} delTodo={this.delTodo} />
       </div>
     );
   }
