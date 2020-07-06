@@ -1,59 +1,81 @@
 import React, { Component } from "react";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import Todos from "./components/Todos";
+import Header from "./components/layout/Header";
+import AddTodo from "./components/AddTodo";
+import About from "./components/pages/About";
+// import { v4 as uuidv4 } from "uuid";
+import Axios from "axios";
 import "./App.css";
-
 
 //user guidlines. follow the numbered comments 1-10) between app & component files in the correct order, prior to reading flow#) comments.
 
 class App extends Component {
   //  1) maintining 'todos' state within our app.js file
   state = {
-    todos: [
-      {
-        id: 1,
-        title: "Take out the trash",
-        completed: false,
-      },
-      {
-        id: 2,
-        title: "Walk Charlie",
-        completed: false,
-      },
-      {
-        id: 3,
-        title: "Make Dinner",
-        completed: false,
-      },
-    ],
+    todos: [],
   };
 
-  // 10a) toggle complete method 
+  componentDidMount() {
+    Axios.get(
+      "https://jsonplaceholder.typicode.com/todos?_limit=15"
+    ).then((res) => this.setState({ todos: res.data }));
+  }
+
+  // 10a) toggle complete method
   markComplete = (id) => {
     //10b) method to alter this state object
     this.setState({
       //10c) if the id passed up to the method is equal to the todo(id) contained within the todos: array that is mapped through, then mark it completed and return todo the object to the todos array
-      todos: this.state.todos.map(todo => {
-        if(todo.id === id) {
-          todo.completed = !todo.completed
+      todos: this.state.todos.map((todo) => {
+        if (todo.id === id) {
+          todo.completed = !todo.completed;
         }
         return todo;
-      })
-    })
+      }),
+    });
   };
 
   delTodo = (id) => {
-    let todos = this.state.todos.filter((todo) => todo.id !== id);
-    this.setState({ todos });
-  }
+    Axios.delete('https://jsonplaceholder.typicode.com/todos/${id}')
+    .then((res) => this.setState({ todos: [...this.state.todos.filter((todo) => todo.id !== id)] }));
+  };
+
+  // ... is a 'spread operator'
+  addTodo = (title) => {
+    Axios.post("https://jsonplaceholder.typicode.com/todos", {
+      title,
+      completed: false,
+    }).then((res) => this.setState({ todos: [...this.state.todos, res.data] }));
+  };
 
   render() {
     // 2) pass down todos from state as a prop 'todos={this.state.todos}' for use in class 'Todos'
-    // 9) creating prop markComplete (for use of component 'Todos' - down the chain) so that the markComplete method in this 'App' class can alter state 
+    // 9) creating prop markComplete (for use of component 'Todos' - down the chain) so that the markComplete method in this 'App' class can alter state
     // flow3) change event has taken place. The id has been pushed up to "this" markComplete & will be excecuted in the markComplete method
     return (
-      <div className="App">
-        <Todos todos={this.state.todos} markComplete={this.markComplete} delTodo={this.delTodo} />
-      </div>
+      <Router>
+        <div className="App">
+          <div className="container">
+            <Header />
+            <Route
+              exact
+              path="/"
+              render={(props) => (
+                <React.Fragment>
+                  <AddTodo addTodo={this.addTodo} />
+                  <Todos
+                    todos={this.state.todos}
+                    markComplete={this.markComplete}
+                    delTodo={this.delTodo}
+                  />
+                </React.Fragment>
+              )}
+            />
+            <Route path="/about" component={About} />
+          </div>
+        </div>
+      </Router>
     );
   }
 }
