@@ -6,8 +6,8 @@ import AddTodo from "./components/AddTodo";
 import About from "./components/pages/About";
 // import { v4 as uuidv4 } from "uuid";
 import Axios from "axios";
-import "./App.css";
 
+import "./App.css";
 //user guidlines. follow the numbered comments 1-10) between app & component files in the correct order, prior to reading flow#) comments.
 
 class App extends Component {
@@ -37,8 +37,13 @@ class App extends Component {
   };
 
   delTodo = (id) => {
-    Axios.delete('https://jsonplaceholder.typicode.com/todos/${id}')
-    .then((res) => this.setState({ todos: [...this.state.todos.filter((todo) => todo.id !== id)] }));
+    Axios.delete(
+      "https://jsonplaceholder.typicode.com/todos/${id}"
+    ).then((res) =>
+      this.setState({
+        todos: [...this.state.todos.filter((todo) => todo.id !== id)],
+      })
+    );
   };
 
   // ... is a 'spread operator'
