@@ -1,13 +1,13 @@
-import React, { Component } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import Todos from "./components/Todos";
-import Header from "./components/layout/Header";
-import AddTodo from "./components/AddTodo";
-import About from "./components/pages/About";
+import React, { Component } from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import Todos from './components/Todos';
+import Header from './components/layout/Header';
+import AddTodo from './components/AddTodo';
+import About from './components/pages/About';
 // import { v4 as uuidv4 } from "uuid";
-import Axios from "axios";
+import Axios from 'axios';
 
-import "./App.css";
+import './App.css';
 //user guidlines. follow the numbered comments 1-10) between app & component files in the correct order, prior to reading flow#) comments.
 
 class App extends Component {
@@ -18,7 +18,7 @@ class App extends Component {
 
   componentDidMount() {
     Axios.get(
-      "https://jsonplaceholder.typicode.com/todos?_limit=15"
+      'https://jsonplaceholder.typicode.com/todos?_limit=15'
     ).then((res) => this.setState({ todos: res.data }));
   }
 
@@ -37,18 +37,17 @@ class App extends Component {
   };
 
   delTodo = (id) => {
-    Axios.delete(
-      "https://jsonplaceholder.typicode.com/todos/${id}"
-    ).then((res) =>
-      this.setState({
-        todos: [...this.state.todos.filter((todo) => todo.id !== id)],
-      })
+    Axios.delete('https://jsonplaceholder.typicode.com/todos/${id}').then(
+      (res) =>
+        this.setState({
+          todos: [...this.state.todos.filter((todo) => todo.id !== id)],
+        })
     );
   };
 
   // ... is a 'spread operator'
   addTodo = (title) => {
-    Axios.post("https://jsonplaceholder.typicode.com/todos", {
+    Axios.post('https://jsonplaceholder.typicode.com/todos', {
       title,
       completed: false,
     }).then((res) => this.setState({ todos: [...this.state.todos, res.data] }));
@@ -60,12 +59,12 @@ class App extends Component {
     // flow3) change event has taken place. The id has been pushed up to "this" markComplete & will be excecuted in the markComplete method
     return (
       <Router>
-        <div className="App">
-          <div className="container">
+        <div className='App'>
+          <div className='container'>
             <Header />
             <Route
               exact
-              path="/"
+              path='/'
               render={(props) => (
                 <React.Fragment>
                   <AddTodo addTodo={this.addTodo} />
@@ -77,7 +76,7 @@ class App extends Component {
                 </React.Fragment>
               )}
             />
-            <Route path="/about" component={About} />
+            <Route path='/about' component={About} />
           </div>
         </div>
       </Router>
