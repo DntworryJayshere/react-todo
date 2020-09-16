@@ -1,4 +1,4 @@
-const db = require('../models');
+const db = require('../models/todo');
 
 // Defining methods for the todosController
 module.exports = {

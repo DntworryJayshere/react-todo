@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const { Todo } = require('.');
 const Schema = mongoose.Schema;
 
 const todoSchema = new Schema({
@@ -9,6 +8,4 @@ const todoSchema = new Schema({
   completed: { type: String, required: true },
 });
 
-const Todo = mongoose.model('Todo', todoSchema);
-
-module.exports = Todo;
+module.exports = mongoose.model('Todo', todoSchema);
