@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import Todos from './components/Todos';
+import Todos from './components/todos/Todos';
 import Header from './components/layout/Header';
-import AddTodo from './components/AddTodo';
-import About from './components/pages/About';
+import AddTodo from './components/todos/AddTodo';
+import About from './components/pages/aboutTodos';
 // import { v4 as uuidv4 } from "uuid";
 import Axios from 'axios';
 
